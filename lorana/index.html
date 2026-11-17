@@ -73,13 +73,13 @@ Comment: (input: bind _password)</tw-passagedata><tw-passagedata pid="2" name="A
 &lt;img src=&quot;https://i.pinimg.com/736x/cc/36/4d/cc364dc1b01fa6a3c38266f6d9ac3fa0.jpg&quot; alt=&quot;pfp&quot; /width=&quot;30&quot; height=&quot;30&quot;&gt;  (text-colour:grey)[@Ari.skinnyglam: ]I am pissed that you&#39;re leaving me on a new year like this. What;s your problem with just checking in?? I see you&#39;re online. Leaving me without any explanation is just low.
 &lt;img src=&quot;https://i.pinimg.com/736x/cc/36/4d/cc364dc1b01fa6a3c38266f6d9ac3fa0.jpg&quot; alt=&quot;pfp&quot; /width=&quot;30&quot; height=&quot;30&quot;&gt; (text-colour:grey)[ @Ari.skinnyglam:] Happy new year. Hope I can get a text from you sometime soon. I don&#39;t understand what have I done :(
 &lt;img src=&quot;https://i.pinimg.com/736x/cc/36/4d/cc364dc1b01fa6a3c38266f6d9ac3fa0.jpg&quot; alt=&quot;pfp&quot; /width=&quot;30&quot; height=&quot;30&quot;&gt; (text-colour:grey)[ @Ari.skinnyglam:] Please just tell me where you are. 
-
-(input-box: bind _password, &quot;X=&quot;)
-
 (link: &quot;Send&quot;)[(set: _clean to (trimmed: (str-replaced: &quot;.&quot;, &quot;&quot;, (lowercase: _password))))(if: _clean is &quot;sorry&quot;)[(set: $dots to 0)(replace: ?result)[(text-colour: red)[ari.skinnyglam is typing|d&gt;[]](live: 0.35s)[(set: $dots to it + 1)(append: ?d)[.](if: $dots is 3)[(stop:)]
 (live: 2s)[Thank you for playing&lt;3]]]](else:)[(replace: ?result)[i can&#39;t send it...]]]
 
-|result&gt;[]</tw-passagedata><tw-passagedata pid="3" name="Your feed" tags="" position="1075,475" size="100,100">go to:
+|result&gt;[]
+(input-box: bind _password, &quot;X=&quot;)
+
+</tw-passagedata><tw-passagedata pid="3" name="Your feed" tags="" position="1075,475" size="100,100">go to:
 [[Ari.Skinnyglam&#39;s profile ]] 
 [[Ari.skinnyglam: Messages]] 
 [[My profile]] 
