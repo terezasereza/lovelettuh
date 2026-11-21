@@ -1,0 +1,141 @@
+.chat-view {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+}
+
+.chat-view.is-active {
+  display: flex;
+}
+
+.chat-header {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  padding-top: calc(10px + env(safe-area-inset-top));
+  border-bottom: 1px solid var(--divider, #ddd);
+  background: var(--surface, #fff);
+}
+
+.chat-back {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chat-header-avatar {
+  width: 36px;
+  height: 36px;
+}
+
+.chat-header-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-header .online-dot {
+  margin-right: 4px;
+}
+
+.chat-messages {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  margin: 0;
+  padding: 16px 12px;
+  overflow-y: auto;
+  list-style: none;
+  background: #f2f2f2;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
+  max-width: 80%;
+}
+
+.chat-message--mine {
+  align-items: flex-end;
+  align-self: flex-end;
+}
+
+.chat-bubble {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 16px;
+  background: var(--surface, #fff);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.chat-message--mine .chat-bubble {
+  background: var(--accent, #1877f2);
+  color: #fff;
+}
+
+.chat-time {
+  padding: 0 4px;
+  color: var(--muted, #65676b);
+  font-size: 0.7rem;
+}
+
+.chat-compose {
+  flex: 0 0 auto;
+  background: var(--surface, #fff);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 10px;
+}
+
+.chat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--divider, #ddd);
+  border-radius: 18px;
+  background: #f2f2f2;
+  color: inherit;
+  font: inherit;
+  /* 16px stops iOS Safari from zooming in when the field is focused. */
+  font-size: 16px;
+}
+
+.chat-send {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--accent, #1877f2);
+  color: #fff;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}

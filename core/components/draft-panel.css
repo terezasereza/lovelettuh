@@ -1,0 +1,46 @@
+.draft-panel {
+  border-top: 1px solid var(--divider, #ddd);
+}
+
+.draft-bar {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 0;
+  background: var(--surface, #fff);
+  color: var(--accent, #1877f2);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.draft-panel-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 200ms ease;
+}
+
+.draft-panel-inner {
+  padding: 10px 12px 14px;
+  background: var(--surface, #fff);
+}
+
+.draft-text {
+  margin: 0;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+
+.draft-blank {
+  display: inline-block;
+  min-width: 64px;
+  border-bottom: 2px solid var(--accent, #1877f2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draft-panel-body {
+    transition: none;
+  }
+}

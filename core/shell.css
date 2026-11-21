@@ -17,12 +17,28 @@ body {
 }
 
 .app {
+  /* Shared by the feed, messages and chat so restyling stays in one place. */
+  --accent: #1877f2;
+  --muted: #65676b;
+  --surface: #fff;
+  --divider: #ddd;
+
   display: flex;
   flex-direction: column;
   height: 100dvh;
   max-width: 480px;
   margin: 0 auto;
   background: #fff;
+}
+
+/* A chat takes over the whole app: no tab bar and no feed header. */
+.app.is-chat-open .app-header,
+.app.is-chat-open .tab-bar {
+  display: none;
+}
+
+.app.is-chat-open .app-screens {
+  overflow: hidden;
 }
 
 .app-header {

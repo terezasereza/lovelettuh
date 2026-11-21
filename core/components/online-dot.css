@@ -1,0 +1,12 @@
+.online-dot {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c4c4c4;
+}
+
+.online-dot.is-online {
+  background: #31a24c;
+}

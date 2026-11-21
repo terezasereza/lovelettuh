@@ -1,13 +1,35 @@
 import { story } from "../stories/anna/story.js";
 import { createPost } from "./components/post.js";
+import { createChatList } from "./screens/messages.js";
+import { createChatView } from "./screens/chat.js";
+import { initOnlineDots, setOnline } from "./components/online-dot.js";
 
 const storyBase = "stories/anna/";
 const storageKey = `lovelettuh:story:${story.id}:state`;
 
+function cleanMessages(list) {
+  if (!Array.isArray(list)) return [];
+  return list
+    .filter((message) => message && typeof message.id === "string" && typeof message.text === "string")
+    .map((message) => ({
+      id: message.id,
+      senderId: typeof message.senderId === "string" ? message.senderId : story.currentUserId,
+      text: message.text,
+      time: typeof message.time === "string" ? message.time : "",
+    }));
+}
+
 // Storage can be disabled (private mode) or hold old/broken data, so always
-// fall back to a clean state for this story.
+// fall back to a clean state for this story. Old saves without the message
+// fields simply get empty defaults.
 function loadState() {
-  const empty = { likedPosts: [], userComments: {} };
+  const empty = {
+    likedPosts: [],
+    userComments: {},
+    sentMessages: {},
+    onlineOverrides: {},
+    draftOpen: {},
+  };
   try {
     const raw = localStorage.getItem(storageKey);
     if (!raw) return empty;
@@ -33,7 +55,29 @@ function loadState() {
       }
     }
 
-    return { likedPosts, userComments };
+    const sentMessages = {};
+    if (saved.sentMessages && typeof saved.sentMessages === "object") {
+      for (const [conversationId, list] of Object.entries(saved.sentMessages)) {
+        const messages = cleanMessages(list);
+        if (messages.length) sentMessages[conversationId] = messages;
+      }
+    }
+
+    const onlineOverrides = {};
+    if (saved.onlineOverrides && typeof saved.onlineOverrides === "object") {
+      for (const [userId, online] of Object.entries(saved.onlineOverrides)) {
+        if (typeof online === "boolean") onlineOverrides[userId] = online;
+      }
+    }
+
+    const draftOpen = {};
+    if (saved.draftOpen && typeof saved.draftOpen === "object") {
+      for (const [conversationId, open] of Object.entries(saved.draftOpen)) {
+        if (typeof open === "boolean") draftOpen[conversationId] = open;
+      }
+    }
+
+    return { likedPosts, userComments, sentMessages, onlineOverrides, draftOpen };
   } catch (error) {
     // Ignore unavailable or invalid storage.
     return empty;
@@ -47,10 +91,13 @@ function saveState() {
       JSON.stringify({
         likedPosts: state.likedPosts,
         userComments: state.userComments,
+        sentMessages: state.sentMessages,
+        onlineOverrides: state.onlineOverrides,
+        draftOpen: state.draftOpen,
       })
     );
   } catch (error) {
-    // Ignore unavailable storage: likes and comments work for this visit.
+    // Ignore unavailable storage: changes work for this visit.
   }
 }
 
@@ -59,6 +106,14 @@ const state = {
   storyId: story.id,
   ...loadState(),
 };
+
+initOnlineDots({
+  users: story.users,
+  overrides: state.onlineOverrides,
+  onChange: saveState,
+});
+// Story code can use this later; useful for testing from the console.
+window.setOnline = setOnline;
 
 const titles = {
   feed: "Feed",
@@ -126,3 +181,105 @@ for (const post of story.posts) {
     })
   );
 }
+
+const app = document.querySelector(".app");
+const messagesScreen = document.querySelector('[data-screen="messages"]');
+let activeChat = null;
+
+function allMessages(conversation) {
+  return [...(conversation.messages || []), ...(state.sentMessages[conversation.id] || [])];
+}
+
+function displayTime() {
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      weekday: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    }).format(new Date());
+  } catch (error) {
+    return "Now";
+  }
+}
+
+const chatList = createChatList({
+  conversations: story.conversations || [],
+  users: story.users,
+  assetBase: storyBase,
+  currentUserId: story.currentUserId,
+  state,
+  onOpen: (conversationId) => openConversation(conversationId),
+});
+messagesScreen.replaceChildren(chatList.element);
+
+function closeConversation({ updateHistory = true } = {}) {
+  if (!activeChat) return;
+  activeChat.view.element.classList.remove("is-active");
+  activeChat.view.element.remove();
+  activeChat = null;
+  app.classList.remove("is-chat-open");
+  chatList.element.hidden = false;
+  if (updateHistory && history.state && history.state.chatId) history.back();
+}
+
+function openConversation(conversationId, { pushHistory = true } = {}) {
+  const conversation = (story.conversations || []).find((item) => item.id === conversationId);
+  if (!conversation) return;
+  if (activeChat && activeChat.id === conversationId) return;
+  if (activeChat) closeConversation({ updateHistory: false });
+
+  const user = story.users[conversation.withUserId] || { name: "Unknown" };
+  const view = createChatView({
+    conversation,
+    user,
+    assetBase: storyBase,
+    currentUserId: story.currentUserId,
+    messages: allMessages(conversation),
+    draft: conversation.draft,
+    draftOpen: Boolean(state.draftOpen[conversation.id]),
+    onBack: closeConversation,
+    onDraftToggle(open) {
+      state.draftOpen[conversation.id] = open;
+      saveState();
+    },
+    onSend(text) {
+      const message = {
+        id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        senderId: story.currentUserId,
+        text,
+        time: displayTime(),
+      };
+      if (!state.sentMessages[conversation.id]) state.sentMessages[conversation.id] = [];
+      state.sentMessages[conversation.id].push(message);
+      saveState();
+      chatList.render();
+      return message;
+    },
+  });
+
+  activeChat = { id: conversationId, view };
+  chatList.element.hidden = true;
+  messagesScreen.append(view.element);
+  view.element.classList.add("is-active");
+  app.classList.add("is-chat-open");
+  if (pushHistory) history.pushState({ chatId: conversationId }, "");
+
+  requestAnimationFrame(() => {
+    view.scrollToBottom();
+    view.refreshDraft();
+  });
+}
+
+window.addEventListener("popstate", (event) => {
+  const chatId = event.state && event.state.chatId;
+  if (chatId) {
+    openConversation(chatId, { pushHistory: false });
+  } else {
+    closeConversation({ updateHistory: false });
+  }
+});
+
+// A reload while a chat was open should land back in that chat.
+const initialChatId = history.state && history.state.chatId;
+if (initialChatId) openConversation(initialChatId, { pushHistory: false });

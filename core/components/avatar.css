@@ -1,0 +1,7 @@
+/* Sizes are set by the screens that use the avatar. */
+.avatar {
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+}
