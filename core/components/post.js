@@ -30,7 +30,15 @@ function userById(users, id) {
 
 export function createPost(
   post,
-  { users, assetBase, currentUserId, liked = false, onLikeChange = () => {} }
+  {
+    users,
+    assetBase,
+    currentUserId,
+    liked = false,
+    onLikeChange = () => {},
+    playerComments = [],
+    onAddComment = () => {},
+  }
 ) {
   const author = userById(users, post.authorId);
 
@@ -95,11 +103,37 @@ export function createPost(
 
   const comments = document.createElement("ul");
   comments.className = "post-comments";
-  for (const comment of post.comments || []) {
+  for (const comment of [...(post.comments || []), ...playerComments]) {
     comments.append(createComment(comment, users, assetBase));
   }
 
-  article.append(header, caption, image, actions, comments);
+  const form = document.createElement("form");
+  form.className = "post-comment-form";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "post-comment-input";
+  input.placeholder = "Add a comment…";
+  input.setAttribute("aria-label", "Add a comment");
+
+  const send = document.createElement("button");
+  send.type = "submit";
+  send.className = "post-comment-send";
+  send.textContent = "Post";
+
+  form.append(input, send);
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const text = input.value.trim();
+    input.value = "";
+    if (!text) return; // Empty comments are ignored.
+
+    const comment = onAddComment(post.id, text);
+    if (comment) comments.append(createComment(comment, users, assetBase));
+  });
+
+  article.append(header, caption, image, actions, comments, form);
   return article;
 }
 

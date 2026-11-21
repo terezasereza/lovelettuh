@@ -7,30 +7,50 @@ const storageKey = `lovelettuh:story:${story.id}:state`;
 // Storage can be disabled (private mode) or hold old/broken data, so always
 // fall back to a clean state for this story.
 function loadState() {
+  const empty = { likedPosts: [], userComments: {} };
   try {
     const raw = localStorage.getItem(storageKey);
-    if (raw) {
-      const saved = JSON.parse(raw);
-      if (saved && Array.isArray(saved.likedPosts)) {
-        return {
-          likedPosts: [...new Set(saved.likedPosts.filter((id) => typeof id === "string"))],
-        };
+    if (!raw) return empty;
+    const saved = JSON.parse(raw);
+    if (!saved || typeof saved !== "object") return empty;
+
+    const likedPosts = Array.isArray(saved.likedPosts)
+      ? [...new Set(saved.likedPosts.filter((id) => typeof id === "string"))]
+      : [];
+
+    const userComments = {};
+    if (saved.userComments && typeof saved.userComments === "object") {
+      for (const [postId, list] of Object.entries(saved.userComments)) {
+        if (Array.isArray(list)) {
+          userComments[postId] = list.filter(
+            (comment) =>
+              comment &&
+              typeof comment.id === "string" &&
+              typeof comment.authorId === "string" &&
+              typeof comment.text === "string"
+          );
+        }
       }
     }
+
+    return { likedPosts, userComments };
   } catch (error) {
     // Ignore unavailable or invalid storage.
+    return empty;
   }
-  return { likedPosts: [] };
 }
 
 function saveState() {
   try {
     localStorage.setItem(
       storageKey,
-      JSON.stringify({ likedPosts: state.likedPosts })
+      JSON.stringify({
+        likedPosts: state.likedPosts,
+        userComments: state.userComments,
+      })
     );
   } catch (error) {
-    // Ignore unavailable storage: likes still work for this visit.
+    // Ignore unavailable storage: likes and comments work for this visit.
   }
 }
 
@@ -90,6 +110,18 @@ for (const post of story.posts) {
           state.likedPosts = state.likedPosts.filter((id) => id !== postId);
         }
         saveState();
+      },
+      playerComments: state.userComments[post.id] || [],
+      onAddComment(postId, text) {
+        const comment = {
+          id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+          authorId: story.currentUserId,
+          text,
+        };
+        if (!state.userComments[postId]) state.userComments[postId] = [];
+        state.userComments[postId].push(comment);
+        saveState();
+        return comment;
       },
     })
   );
