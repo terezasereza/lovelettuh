@@ -133,12 +133,13 @@ export const story = {
         },
       ],
       },
-        id: "kikichi-announcement",
+    {
+      id: "kikichi-announcement",
         authorId: "kikichi",
         caption:
       "WAITING YOU IN HOT HOT SPAIN CUTIES AND PIES! GET YOUR LAST TICKETS, JUST A DAY LEFT! YASS RIGHT HERE!! Tickets -> www.kikichi.tickets.com",
         image: "assets/kikichi-concert.jpg",
-        likes: 87 534,
+        likes: 87534,
         comments: [
             {
                 id: "c3",
