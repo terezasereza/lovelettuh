@@ -14,6 +14,23 @@
   display: none;
 }
 
+.profile-view.is-pushed {
+  animation: profile-slide-in 180ms ease-out;
+}
+
+@keyframes profile-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-view.is-pushed {
+    animation: none;
+  }
+}
+
 .profile-scroll {
   flex: 1 1 auto;
   min-height: 0;

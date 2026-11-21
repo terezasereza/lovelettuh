@@ -131,6 +131,7 @@ const screens = document.querySelectorAll("[data-screen]");
 function showTab(tabId) {
   state.tab = tabId;
   titleEl.textContent = titles[tabId];
+  app.classList.toggle("is-profile-active", tabId === "profile");
 
   screens.forEach((screen) => {
     screen.hidden = screen.dataset.screen !== tabId;
@@ -246,6 +247,7 @@ function pushProfile(userId) {
     onBack: closeProfile,
   });
 
+  view.element.classList.add("is-pushed");
   profileStack.push({ userId, view, scrollTop: 0 });
   profileScreen.append(view.element);
   state.profileUserId = userId;

@@ -43,7 +43,7 @@ body {
 
 /* A friend's profile has its own back bar, so the app header steps aside.
    The tab bar stays: tabs keep working from any profile. */
-.app.is-profile-open .app-header {
+.app.is-profile-open.is-profile-active .app-header {
   display: none;
 }
 
