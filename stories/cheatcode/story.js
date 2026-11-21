@@ -141,7 +141,18 @@ export const story = {
         { id: "m4", senderId: "olivia", text: "I know. I'm working on it.", time: "Tue 18:07" },
         { id: "m5", senderId: "ari", text: "The plant is still alive, by the way.", time: "Tue 18:08" },
         { id: "m6", senderId: "olivia", text: "See? You can keep something alive.", time: "Tue 18:09" },
-      ],
+          ],
+          // The blanks become a mechanic later. Only their ids matter for now.
+          draft: {
+              id: "d1",
+              segments: [
+                  { text: "I never told you that I " },
+                  { blank: "b1" },
+                  { text: " every time we " },
+                  { blank: "b2" },
+                  { text: "." },
+              ],
+          },
     },
     {
       id: "leo-chat",
@@ -156,17 +167,6 @@ export const story = {
         { id: "l7", senderId: "olivia", text: "Then write something small.", time: "Wed 22:21" },
         { id: "l8", senderId: "leo", text: "Okay.", time: "Wed 22:23" },
       ],
-      // The blanks become a mechanic later. Only their ids matter for now.
-      draft: {
-        id: "d1",
-        segments: [
-          { text: "I never told you that I " },
-          { blank: "b1" },
-          { text: " every time we " },
-          { blank: "b2" },
-          { text: "." },
-        ],
-      },
     },
     {
       id: "noor-chat",
