@@ -8,18 +8,30 @@ function urlFor(assetBase, path) {
   return assetBase + path;
 }
 
-function likeCount(likes) {
-  if (Array.isArray(likes)) return likes.length;
-  const number = Number(likes);
-  if (Number.isFinite(number)) return Math.max(0, Math.floor(number));
-  return 0;
+// The data never changes: the count is always the authored number (or list)
+// plus one if the player has liked this post. Recomputing it on every toggle
+// means quick double taps cannot drift the count.
+function likeCount(likes, liked, currentUserId) {
+  let count;
+  if (Array.isArray(likes)) {
+    count = likes.length;
+    if (liked && !likes.includes(currentUserId)) count += 1;
+  } else {
+    const number = Number(likes);
+    count = Number.isFinite(number) ? Math.max(0, Math.floor(number)) : 0;
+    if (liked) count += 1;
+  }
+  return count;
 }
 
 function userById(users, id) {
   return users[id] || { name: "Unknown" };
 }
 
-export function createPost(post, { users, assetBase }) {
+export function createPost(
+  post,
+  { users, assetBase, currentUserId, liked = false, onLikeChange = () => {} }
+) {
   const author = userById(users, post.authorId);
 
   const article = document.createElement("article");
@@ -49,26 +61,35 @@ export function createPost(post, { users, assetBase }) {
   image.alt = "";
   image.src = urlFor(assetBase, post.image);
 
-  const count = likeCount(post.likes);
   const actions = document.createElement("div");
   actions.className = "post-actions";
 
-  const like = document.createElement("p");
+  const like = document.createElement("button");
+  like.type = "button";
   like.className = "post-like";
-  like.setAttribute(
-    "aria-label",
-    count === 1 ? "1 like" : `${count} likes`
-  );
 
   const icon = document.createElement("span");
   icon.className = "post-like-icon";
   icon.setAttribute("aria-hidden", "true");
-  icon.textContent = "♡";
 
   const countEl = document.createElement("span");
   countEl.className = "post-like-count";
-  countEl.textContent = String(count);
 
+  function renderLike() {
+    const count = likeCount(post.likes, liked, currentUserId);
+    icon.textContent = liked ? "♥" : "♡";
+    countEl.textContent = String(count);
+    like.setAttribute("aria-pressed", String(liked));
+    like.setAttribute("aria-label", count === 1 ? "1 like" : `${count} likes`);
+  }
+
+  like.addEventListener("click", () => {
+    liked = !liked;
+    renderLike();
+    onLikeChange(post.id, liked);
+  });
+
+  renderLike();
   like.append(icon, countEl);
   actions.append(like);
 

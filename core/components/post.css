@@ -5,6 +5,7 @@
   --post-pad: 12px;
   --avatar-size: 40px;
   --comment-avatar-size: 28px;
+  --post-like-active: #1877f2;
 
   background: var(--post-bg);
   color: var(--post-text);
@@ -81,7 +82,18 @@
   gap: 6px;
   min-height: 44px;
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
   font-weight: 650;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.post-like[aria-pressed="true"] {
+  color: var(--post-like-active);
 }
 
 .post-like-icon {
