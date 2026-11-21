@@ -73,6 +73,56 @@ export function createProfileView({
 
   header.append(avatar, identity);
   scroll.append(cover, header);
+
+  const aboutLabels = {
+    livesIn: "Lives in",
+    from: "From",
+    works: "Works",
+    studied: "Studied",
+    relationship: "Relationship",
+  };
+
+  function aboutLabel(field) {
+    if (aboutLabels[field]) return aboutLabels[field];
+    // Unknown fields still get a readable label, so adding one to story data
+    // needs no change here.
+    const spaced = field.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+    return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+  }
+
+  if (user.about && typeof user.about === "object") {
+    const fields = Object.entries(user.about).filter(
+      ([, value]) => value !== undefined && value !== null && value !== ""
+    );
+    if (fields.length) {
+      const about = document.createElement("section");
+      about.className = "profile-section about-section";
+
+      const title = document.createElement("h3");
+      title.className = "section-title";
+      title.textContent = "About";
+
+      const list = document.createElement("dl");
+      list.className = "about-list";
+      for (const [field, value] of fields) {
+        const row = document.createElement("div");
+        row.className = "about-row";
+
+        const label = document.createElement("dt");
+        label.textContent = aboutLabel(field);
+
+        const text = document.createElement("dd");
+        text.textContent = String(value);
+
+        row.append(label, text);
+        list.append(row);
+      }
+
+      about.append(title, list);
+      scroll.append(about);
+    }
+  }
+
   view.append(scroll);
 
   return { element: view, scroll };

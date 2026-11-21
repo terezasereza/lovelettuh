@@ -71,3 +71,35 @@
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
+
+.profile-section {
+  padding: 16px;
+  border-top: 8px solid #efefef;
+}
+
+.section-title {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.about-list {
+  margin: 0;
+}
+
+.about-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.about-row dt {
+  flex: 0 0 110px;
+  color: var(--muted, #65676b);
+}
+
+.about-row dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
