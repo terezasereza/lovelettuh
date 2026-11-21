@@ -123,6 +123,45 @@ export function createProfileView({
     }
   }
 
+  if (Array.isArray(user.friends)) {
+    // Ids are looked up in users, so a name or picture change updates every
+    // profile. Unknown ids and the user themselves are ignored.
+    const friendIds = [...new Set(user.friends)].filter(
+      (id) => id && id !== userId && users[id]
+    );
+    if (friendIds.length) {
+      const friends = document.createElement("section");
+      friends.className = "profile-section friends-section";
+
+      const title = document.createElement("h3");
+      title.className = "section-title";
+      title.textContent = `Friends · ${friendIds.length}`;
+
+      const grid = document.createElement("div");
+      grid.className = "friends-grid";
+      for (const id of friendIds) {
+        const friend = users[id];
+
+        const item = document.createElement("div");
+        item.className = "friend-item";
+        item.dataset.friendId = id;
+
+        const avatar = createAvatar(friend, assetBase);
+        avatar.classList.add("friend-avatar");
+
+        const label = document.createElement("span");
+        label.className = "friend-name";
+        label.textContent = friend.name;
+
+        item.append(avatar, label);
+        grid.append(item);
+      }
+
+      friends.append(title, grid);
+      scroll.append(friends);
+    }
+  }
+
   view.append(scroll);
 
   return { element: view, scroll };
