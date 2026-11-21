@@ -2,6 +2,7 @@ import { story } from "../stories/anna/story.js";
 import { createPost } from "./components/post.js";
 import { createChatList } from "./screens/messages.js";
 import { createChatView } from "./screens/chat.js";
+import { createProfileView } from "./screens/profile.js";
 import { initOnlineDots, setOnline } from "./components/online-dot.js";
 
 const storyBase = "stories/anna/";
@@ -148,39 +149,57 @@ tabButtons.forEach((button) => {
   });
 });
 
+// Feed and profile share the same post component and the same state, so a like
+// or comment made in one place shows up in the other.
+function changeLike(postId, liked) {
+  if (liked) {
+    if (!state.likedPosts.includes(postId)) state.likedPosts.push(postId);
+  } else {
+    state.likedPosts = state.likedPosts.filter((id) => id !== postId);
+  }
+  saveState();
+}
+
+function addComment(postId, text) {
+  const comment = {
+    id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    authorId: story.currentUserId,
+    text,
+  };
+  if (!state.userComments[postId]) state.userComments[postId] = [];
+  state.userComments[postId].push(comment);
+  saveState();
+  return comment;
+}
+
+function postOptions(post) {
+  return {
+    users: story.users,
+    assetBase: storyBase,
+    currentUserId: story.currentUserId,
+    liked: state.likedPosts.includes(post.id),
+    onLikeChange: changeLike,
+    playerComments: state.userComments[post.id] || [],
+    onAddComment: addComment,
+  };
+}
+
 const feed = document.querySelector('[data-screen="feed"]');
 feed.replaceChildren();
+for (const post of story.posts) feed.append(createPost(post, postOptions(post)));
 
-for (const post of story.posts) {
-  feed.append(
-    createPost(post, {
-      users: story.users,
-      assetBase: storyBase,
-      currentUserId: story.currentUserId,
-      liked: state.likedPosts.includes(post.id),
-      onLikeChange(postId, liked) {
-        if (liked) {
-          if (!state.likedPosts.includes(postId)) state.likedPosts.push(postId);
-        } else {
-          state.likedPosts = state.likedPosts.filter((id) => id !== postId);
-        }
-        saveState();
-      },
-      playerComments: state.userComments[post.id] || [],
-      onAddComment(postId, text) {
-        const comment = {
-          id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-          authorId: story.currentUserId,
-          text,
-        };
-        if (!state.userComments[postId]) state.userComments[postId] = [];
-        state.userComments[postId].push(comment);
-        saveState();
-        return comment;
-      },
-    })
-  );
-}
+const profileScreen = document.querySelector('[data-screen="profile"]');
+const ownProfile = createProfileView({
+  userId: story.currentUserId,
+  users: story.users,
+  posts: story.posts,
+  assetBase: storyBase,
+  currentUserId: story.currentUserId,
+  state,
+  onLikeChange: changeLike,
+  onAddComment: addComment,
+});
+profileScreen.replaceChildren(ownProfile.element);
 
 const app = document.querySelector(".app");
 const messagesScreen = document.querySelector('[data-screen="messages"]');

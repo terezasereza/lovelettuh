@@ -1,0 +1,73 @@
+.screen[data-screen="profile"] {
+  height: 100%;
+  padding: 0;
+}
+
+.profile-view {
+  height: 100%;
+}
+
+/* Each profile keeps its own scroll position while another one is on top. */
+.profile-view[hidden] {
+  display: none;
+}
+
+.profile-scroll {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.profile-cover {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #c9dcf2, #f2d9df);
+}
+
+.profile-cover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-header {
+  padding: 0 16px 16px;
+}
+
+.profile-avatar {
+  display: block;
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin-top: -48px;
+  border: 4px solid var(--surface, #fff);
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.profile-name {
+  min-width: 0;
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.profile-name-row .online-dot {
+  width: 12px;
+  height: 12px;
+}
+
+.profile-bio {
+  margin: 6px 0 0;
+  color: var(--muted, #65676b);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
