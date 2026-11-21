@@ -45,6 +45,14 @@ export function createChatView({
 
   function createMessageElement(message) {
     const item = document.createElement("li");
+
+    // A date entry has no sender or text: it draws a divider between days.
+    if (typeof message.date === "string") {
+      item.className = "chat-date";
+      item.textContent = message.date;
+      return item;
+    }
+
     item.className = "chat-message";
     item.classList.add(
       message.senderId === currentUserId ? "chat-message--mine" : "chat-message--theirs"

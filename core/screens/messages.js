@@ -11,7 +11,8 @@ export function createChatList({ conversations, users, assetBase, currentUserId,
   function lastMessage(conversation) {
     const sent = state.sentMessages[conversation.id] || [];
     if (sent.length) return sent[sent.length - 1];
-    const authored = conversation.messages || [];
+    // Date dividers are not messages, so they cannot be a chat preview.
+    const authored = (conversation.messages || []).filter((message) => message && !message.date);
     return authored.length ? authored[authored.length - 1] : null;
   }
 

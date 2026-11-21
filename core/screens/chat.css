@@ -66,6 +66,18 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.chat-date {
+  align-self: center;
+  max-width: 80%;
+  margin: 6px 0;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: var(--divider, #ddd);
+  color: var(--muted, #65676b);
+  font-size: 0.7rem;
+  text-align: center;
+}
+
 .chat-message {
   display: flex;
   flex-direction: column;

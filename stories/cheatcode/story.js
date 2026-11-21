@@ -69,20 +69,34 @@ export const story = {
     priya: { name: "Priya" },
     tom: { name: "Tom" },
     elena: { name: "Elena" },
-  },
+    },
+    queernews: {
+        name: "queer.news",
+        avatar: "assets/longbaconstore.jpg",
+        cover: "assets/longbaconstore.jpg",
+        about: {},
+        friends: [],
+    },
+    kikichi: {
+        name: "kikichi.official",
+        avatar: "assets/kikichi-concert.jpg",
+        cover: "assets/kikichi-concert.jpg",
+        about: {},
+        friends: [],
+    },
   // Authored newest first. A profile shows the posts whose authorId matches.
   posts: [
     {
-      id: "small-kindness",
+      id: "olivia-changed-pfp",
       authorId: "olivia",
-      caption: "Bought myself flowers. They are not an apology, they are just flowers.",
-      image: "assets/plant.svg",
-      likes: 3,
+          caption: "Olivia Bagley has just changed their profile image.",
+      image: "assets/oliviapfp.jpg",
+      likes: 2,
       comments: [
-        { id: "c4", authorId: "noor", text: "This is the correct amount of flowers." },
+        { id: "c4", authorId: "ari", text: "SICKKK!!" },
       ],
     },
-    {
+    /*{
       id: "left-on-read",
       authorId: "olivia",
       caption: "He left this on read for six hours. I still checked if the little dot was green.",
@@ -95,36 +109,43 @@ export const story = {
       // Reserved for a later minigame. The feed ignores this field for now.
       interaction: "trash-paper",
     },
+    */
     {
-      id: "sunday-plans",
+      id: "kikichi-concert",
       authorId: "ari",
-      caption: "Sunday: book club, then pretending I don't check my phone at the table.",
-      image: "assets/read-receipt.svg",
-      likes: 7,
+        caption: "I WAS AT KIKICHI CONCERT TODAY!! That was so insanely awesome, I think I might lose my shit for next 2 weeks or so xp. Don't lose meee people okay??",
+        image: "assets/kikichi-concert.jpg",
+      likes: 13,
       comments: [],
     },
     {
-      id: "unsent-note",
-      authorId: "leo",
+      id: "tyler-gay",
+      authorId: "queernews",
       caption:
-        "I recorded a voice note on the walk home, the one where I finally say I miss her without joking, and then I stood outside my building and played it back twice. My voice sounded like someone asking a stranger for a favor. I deleted it before the elevator doors opened. The draft is gone and I still know every sentence, which feels worse than sending it.",
-      image: "assets/voice-note.svg",
-      likes: 4,
+        "Tyler Stan came out as homosexual in his last interview! He's one of us :)! Tyler Stan, the lead singer of 'Two Steps Away', 2017 Grammy nomenee, whose single 'Get out'(2005) is one of the most listened singles of all time recently has opened up about his sexuality on the Cheesy Podcast hosted by queer community. Welcome, Tyler!",
+      image: "assets/tylergay.jpg",
+        likes: 3479,
       comments: [
         {
           id: "c3",
-          authorId: "olivia",
-          text: "I have a whole album of those. They live in my head with the file name still on them, like unsaved tabs I am afraid to close in case the wording was finally honest.",
+          authorId: "leo",
+          text: "i knew it! god he is soooo hot",
         },
       ],
-    },
-    {
-      id: "new-plant",
-      authorId: "ari",
-      caption: "New plant. Don't name it.",
-      image: "assets/plant.svg",
-      likes: 0,
-      comments: [],
+      },
+        id: "kikichi-announcement",
+        authorId: "kikichi",
+        caption:
+      "WAITING YOU IN HOT HOT SPAIN CUTIES AND PIES! GET YOUR LAST TICKETS, JUST A DAY LEFT! YASS RIGHT HERE!! Tickets -> www.kikichi.tickets.com",
+        image: "assets/kikichi-concert.jpg",
+        likes: 87 534,
+        comments: [
+            {
+                id: "c3",
+                authorId: "ari",
+                text: "!!!!!!!!!!!!!",
+            },
+        ],
     },
   ],
 
@@ -134,14 +155,52 @@ export const story = {
     {
       id: "ari-chat",
       withUserId: "ari",
+      // Entries with only an id + date are date dividers, not messages.
+      // The transcript has dates but no per-message times, so times are omitted.
       messages: [
-        { id: "m1", senderId: "ari", text: "You okay? You've been quiet since Tuesday.", time: "Tue 18:02" },
-        { id: "m2", senderId: "olivia", text: "Yeah. Just tired.", time: "Tue 18:04" },
-        { id: "m3", senderId: "ari", text: "That's the same thing you said last week.", time: "Tue 18:05" },
-        { id: "m4", senderId: "olivia", text: "I know. I'm working on it.", time: "Tue 18:07" },
-        { id: "m5", senderId: "ari", text: "The plant is still alive, by the way.", time: "Tue 18:08" },
-        { id: "m6", senderId: "olivia", text: "See? You can keep something alive.", time: "Tue 18:09" },
-          ],
+        { id: "a-date-08", date: "08.12.2018" },
+        { id: "a1", senderId: "ari", text: "hey, wanna hop on a call?" },
+        { id: "a2", senderId: "ari", text: "i shud be free till 5!" },
+        { id: "a3", senderId: "olivia", text: "sure! gimme a minute" },
+
+        { id: "a-date-15", date: "15.12.2018" },
+        { id: "a4", senderId: "ari", text: "LOL he's just like me fr." },
+        { id: "a5", senderId: "olivia", text: "frrr" },
+        { id: "a6", senderId: "ari", text: "you doing anything during new years?" },
+        { id: "a7", senderId: "olivia", text: "maybe something with family" },
+        { id: "a8", senderId: "ari", text: "eeyy" },
+        { id: "a9", senderId: "ari", text: "I wish I could come" },
+        { id: "a10", senderId: "ari", text: "So we could celebrate together some time <33" },
+        { id: "a11", senderId: "olivia", text: ":(" },
+        { id: "a12", senderId: "ari", text: "Gonna make it my new year wish so we finally live together!!" },
+        { id: "a13", senderId: "olivia", text: "awhhh STAP !!" },
+        { id: "a14", senderId: "olivia", text: "im gonna make a wish so you become tiny and I carry you in my pocket everywhere" },
+        { id: "a15", senderId: "ari", text: "LOL says the tiny you" },
+        { id: "a16", senderId: "olivia", text: "-_- mmywah" },
+        { id: "a17", senderId: "ari", text: ":(" },
+        { id: "a18", senderId: "ari", text: "internet hug" },
+        { id: "a19", senderId: "olivia", text: "dodges internet hug and passionately kisses instead" },
+        { id: "a20", senderId: "ari", text: "LOL stfuuuu xD" },
+        { id: "a21", senderId: "olivia", text: ":]" },
+
+        { id: "a-date-19", date: "19.12.2018" },
+        { id: "a22", senderId: "ari", text: "SHELLY GIRL YOU KNOW WHAT HAPPENED" },
+        { id: "a23", senderId: "ari", text: "MY PARENTS GOT ME A TICKET!!" },
+
+        { id: "a-date-20", date: "20.12.2018" },
+        { id: "a24", senderId: "ari", text: "For Kikichi girl!" },
+        { id: "a25", senderId: "ari", text: "heyooo" },
+
+        { id: "a-date-25", date: "25.12.2018" },
+        { id: "a26", senderId: "ari", text: "u thereee??" },
+        { id: "a27", senderId: "ari", text: "Im worried" },
+        { id: "a28", senderId: "ari", text: "Merry Xmas btw" },
+
+        { id: "a-date-31", date: "31.12.2018" },
+        { id: "a29", senderId: "ari", text: "I am pissed that you're leaving me on a new year like this. What;s your problem with just checking in?? I see you're online. Leaving me without any explanation is just low." },
+        { id: "a30", senderId: "ari", text: "Happy new year. Hope I can get a text from you sometime soon. I don't understand what have I done :(" },
+        { id: "a31", senderId: "ari", text: "Please just tell me where you are." },
+      ],
           // The blanks become a mechanic later. Only their ids matter for now.
           draft: {
               id: "d1",
