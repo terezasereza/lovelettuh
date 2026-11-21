@@ -1,2 +1,36 @@
-<h1>hello world</h1>
-<img src="images/longbaconstore.jpg" alt="Description" style="width: 300px;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lovelettuh</title>
+  <link rel="stylesheet" href="core/shell.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-title" id="screen-title">For You</h1>
+    </header>
+
+    <main class="app-screens">
+      <section class="screen" data-screen="feed">
+        <p class="screen-placeholder">For You is empty.</p>
+      </section>
+      <section class="screen" data-screen="messages" hidden>
+        <p class="screen-placeholder">No messages yet.</p>
+      </section>
+      <section class="screen" data-screen="profile" hidden>
+        <p class="screen-placeholder">Profile is empty.</p>
+      </section>
+    </main>
+
+    <nav class="tab-bar" aria-label="App sections">
+      <button type="button" data-tab="feed" aria-current="page">For You</button>
+      <button type="button" data-tab="messages">Messages</button>
+      <button type="button" data-tab="profile">Profile</button>
+    </nav>
+  </div>
+
+  <script src="core/shell.js"></script>
+</body>
+</html>
