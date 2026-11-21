@@ -101,6 +101,22 @@
   line-height: 1;
 }
 
+@keyframes post-like-pop {
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+.post-like[aria-pressed="true"] .post-like-icon {
+  animation: post-like-pop 180ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-like[aria-pressed="true"] .post-like-icon {
+    animation: none;
+  }
+}
+
 .post-comments {
   list-style: none;
   margin: 0;

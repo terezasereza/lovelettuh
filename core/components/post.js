@@ -28,6 +28,53 @@ function userById(users, id) {
   return users[id] || { name: "Unknown" };
 }
 
+function escapeXml(text) {
+  return String(text).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&apos;",
+  })[char]);
+}
+
+function initials(name) {
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  return (
+    parts
+      .slice(0, 2)
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase() || "?"
+  );
+}
+
+function dataImage(svg) {
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function avatarFallback(name) {
+  return dataImage(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#d9d9d9"/><text x="40" y="52" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="600" fill="#666">${escapeXml(initials(name))}</text></svg>`
+  );
+}
+
+function imageFallback() {
+  return dataImage(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000"><rect width="800" height="1000" fill="#eee"/><circle cx="265" cy="320" r="60" fill="#ccc"/><path d="M110 810 330 555 475 715 600 610 730 810Z" fill="#ccc"/></svg>`
+  );
+}
+
+// Missing or broken files show a drawn placeholder instead of a broken icon.
+function setImage(img, url, fallback) {
+  if (!url) {
+    img.src = fallback;
+    return;
+  }
+  img.addEventListener("error", () => { img.src = fallback; }, { once: true });
+  img.src = url;
+}
+
 export function createPost(
   post,
   {
@@ -52,7 +99,7 @@ export function createPost(
   const avatar = document.createElement("img");
   avatar.className = "post-avatar";
   avatar.alt = "";
-  avatar.src = urlFor(assetBase, author.avatar);
+  setImage(avatar, urlFor(assetBase, author.avatar), avatarFallback(author.name));
 
   const name = document.createElement("p");
   name.className = "post-author";
@@ -67,7 +114,7 @@ export function createPost(
   const image = document.createElement("img");
   image.className = "post-image";
   image.alt = "";
-  image.src = urlFor(assetBase, post.image);
+  setImage(image, urlFor(assetBase, post.image), imageFallback());
 
   const actions = document.createElement("div");
   actions.className = "post-actions";
@@ -146,7 +193,7 @@ function createComment(comment, users, assetBase) {
   const avatar = document.createElement("img");
   avatar.className = "post-avatar post-avatar--small";
   avatar.alt = "";
-  avatar.src = urlFor(assetBase, user.avatar);
+  setImage(avatar, urlFor(assetBase, user.avatar), avatarFallback(user.name));
 
   const text = document.createElement("p");
   const author = document.createElement("span");
