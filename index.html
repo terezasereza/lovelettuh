@@ -9,12 +9,12 @@
 <body>
   <div class="app">
     <header class="app-header">
-      <h1 class="app-title" id="screen-title">For You</h1>
+      <h1 class="app-title" id="screen-title">Feed</h1>
     </header>
 
     <main class="app-screens">
       <section class="screen" data-screen="feed">
-        <p class="screen-placeholder">For You is empty.</p>
+        <p class="screen-placeholder">Feed is empty.</p>
       </section>
       <section class="screen" data-screen="messages" hidden>
         <p class="screen-placeholder">No messages yet.</p>
@@ -25,12 +25,12 @@
     </main>
 
     <nav class="tab-bar" aria-label="App sections">
-      <button type="button" data-tab="feed" aria-current="page">For You</button>
+      <button type="button" data-tab="feed" aria-current="page">Feed</button>
       <button type="button" data-tab="messages">Messages</button>
       <button type="button" data-tab="profile">Profile</button>
     </nav>
   </div>
 
-  <script src="core/shell.js"></script>
+  <script type="module" src="core/shell.js"></script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="A night street">
+  <rect width="800" height="1000" fill="#1d3557"/>
+  <rect y="720" width="800" height="280" fill="#0d1b2a"/>
+  <circle cx="620" cy="180" r="48" fill="#f4e1c1"/>
+  <rect x="120" y="640" width="16" height="200" fill="#e07a5f"/>
+  <rect x="300" y="560" width="16" height="280" fill="#e07a5f"/>
+  <rect x="500" y="600" width="16" height="240" fill="#e07a5f"/>
+</svg>

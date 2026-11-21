@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="A plant on a windowsill">
+  <rect width="800" height="1000" fill="#f6f1e7"/>
+  <rect x="80" y="120" width="640" height="520" fill="#d8e2dc"/>
+  <rect x="300" y="620" width="200" height="160" rx="8" fill="#bc6c25"/>
+  <ellipse cx="400" cy="560" rx="70" ry="28" fill="#3d5a4c"/>
+  <path d="M400 620c-10-120-80-180-120-210 60 10 100 70 120 210z" fill="#588157"/>
+  <path d="M400 600c20-140 100-190 150-200-50 20-110 80-150 200z" fill="#3a5a40"/>
+</svg>

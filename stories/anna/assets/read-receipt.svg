@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="A phone on a table">
+  <rect width="800" height="1000" fill="#f2e9e4"/>
+  <rect x="250" y="180" width="300" height="620" rx="36" fill="#1a1a1a"/>
+  <rect x="272" y="220" width="256" height="500" rx="8" fill="#f7f3ef"/>
+  <circle cx="400" cy="760" r="18" fill="#f2e9e4"/>
+  <circle cx="470" cy="430" r="16" fill="#81b29a"/>
+</svg>

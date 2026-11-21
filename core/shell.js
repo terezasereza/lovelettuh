@@ -1,9 +1,14 @@
+import { story } from "../stories/anna/story.js";
+
+console.log("Story loaded:", story.id, story);
+
 const state = {
   tab: "feed",
+  storyId: story.id,
 };
 
 const titles = {
-  feed: "For You",
+  feed: "Feed",
   messages: "Messages",
   profile: "Profile",
 };
