@@ -5,28 +5,83 @@
 export const story = {
   id: "anna",
   currentUserId: "anna",
+  // Users referenced by id everywhere else. Cover, bio, about and friends are
+  // all optional: the profile screen renders only what is present.
   users: {
     anna: {
       name: "Anna Novak",
       avatar: "assets/anna.svg",
+      cover: "assets/cover.svg",
+      online: true,
+      bio: "Reading other people's messages like weather reports.",
+      about: {
+        livesIn: "Brno",
+        works: "Bookseller at a shop that smells like paper",
+        relationship: "It's complicated",
+      },
+      friends: ["mira", "leo", "noor", "jules", "sam"],
     },
     mira: {
       name: "Mira Chen",
       avatar: "assets/mira.svg",
+      cover: "assets/cover.svg",
       online: true,
+      bio: "Keeping things alive, mostly.",
+      about: {
+        livesIn: "Brno",
+        from: "Taipei",
+        works: "Designing signs for people who are lost",
+        studied: "Graphic design",
+        relationship: "Single, apparently",
+      },
+      friends: ["anna", "leo", "noor", "jules", "sam", "priya", "tom", "elena"],
     },
     leo: {
       name: "Leo Bartholomew-Langworth",
       avatar: "assets/leo.svg",
+      // No cover on purpose: the profile should draw a fallback banner.
       online: false,
+      bio: "Drafts are letters I didn't deserve to send.",
+      about: { relationship: "In a relationship with Anna" },
+      // Self-link and unknown id are here to check that the UI skips them.
+      friends: ["leo", "anna", "ghost-user"],
     },
     noor: {
       name: "Noor Haddad",
       avatar: "assets/noor.svg",
+      cover: "assets/cover.svg",
       online: true,
+      friends: [],
     },
+    jules: {
+      name: "Jules",
+      // No avatar on purpose: the profile should draw an initials fallback.
+      cover: "assets/cover.svg",
+      about: {},
+      friends: ["anna"],
+    },
+    sam: {
+      name: "Samantha-Rose Fitzgerald-Okafor",
+      cover: "assets/cover.svg",
+      about: { from: "Glasgow" },
+      friends: ["anna", "mira"],
+    },
+    priya: { name: "Priya" },
+    tom: { name: "Tom" },
+    elena: { name: "Elena" },
   },
+  // Authored newest first. A profile shows the posts whose authorId matches.
   posts: [
+    {
+      id: "small-kindness",
+      authorId: "anna",
+      caption: "Bought myself flowers. They are not an apology, they are just flowers.",
+      image: "assets/plant.svg",
+      likes: 3,
+      comments: [
+        { id: "c4", authorId: "noor", text: "This is the correct amount of flowers." },
+      ],
+    },
     {
       id: "left-on-read",
       authorId: "anna",
@@ -39,6 +94,14 @@ export const story = {
       ],
       // Reserved for a later minigame. The feed ignores this field for now.
       interaction: "trash-paper",
+    },
+    {
+      id: "sunday-plans",
+      authorId: "mira",
+      caption: "Sunday: book club, then pretending I don't check my phone at the table.",
+      image: "assets/read-receipt.svg",
+      likes: 7,
+      comments: [],
     },
     {
       id: "unsent-note",
