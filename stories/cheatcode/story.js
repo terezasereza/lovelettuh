@@ -19,13 +19,13 @@ export const story = {
         works: "Bookseller at a shop that smells like paper",
         relationship: "It's complicated",
       },
-      friends: ["mira", "leo", "noor", "jules", "sam"],
+      friends: ["ari", "leo", "noor", "jules", "sam"],
     },
-    mira: {
-      name: "Mira Chen",
-      avatar: "assets/mira.svg",
-      cover: "assets/cover.svg",
-      online: true,
+    ari: {
+      name: "Ari.Skinnyglam",
+      avatar: "assets/aripfp.jpg",
+      cover: "assets/aribg.jpg",
+      online: false,
       bio: "Keeping things alive, mostly.",
       about: {
         livesIn: "Brno",
@@ -64,7 +64,7 @@ export const story = {
       name: "Samantha-Rose Fitzgerald-Okafor",
       cover: "assets/cover.svg",
       about: { from: "Glasgow" },
-      friends: ["olivia", "mira"],
+      friends: ["olivia", "ari"],
     },
     priya: { name: "Priya" },
     tom: { name: "Tom" },
@@ -89,7 +89,7 @@ export const story = {
       image: "assets/read-receipt.svg",
       likes: 18,
       comments: [
-        { id: "c1", authorId: "mira", text: "Put the phone in another room." },
+        { id: "c1", authorId: "ari", text: "Put the phone in another room." },
         { id: "c2", authorId: "leo", text: "A green dot is not a personality." },
       ],
       // Reserved for a later minigame. The feed ignores this field for now.
@@ -97,7 +97,7 @@ export const story = {
     },
     {
       id: "sunday-plans",
-      authorId: "mira",
+      authorId: "ari",
       caption: "Sunday: book club, then pretending I don't check my phone at the table.",
       image: "assets/read-receipt.svg",
       likes: 7,
@@ -120,7 +120,7 @@ export const story = {
     },
     {
       id: "new-plant",
-      authorId: "mira",
+      authorId: "ari",
       caption: "New plant. Don't name it.",
       image: "assets/plant.svg",
       likes: 0,
@@ -132,14 +132,14 @@ export const story = {
   // state instead, so this array never changes.
   conversations: [
     {
-      id: "mira-chat",
-      withUserId: "mira",
+      id: "ari-chat",
+      withUserId: "ari",
       messages: [
-        { id: "m1", senderId: "mira", text: "You okay? You've been quiet since Tuesday.", time: "Tue 18:02" },
+        { id: "m1", senderId: "ari", text: "You okay? You've been quiet since Tuesday.", time: "Tue 18:02" },
         { id: "m2", senderId: "olivia", text: "Yeah. Just tired.", time: "Tue 18:04" },
-        { id: "m3", senderId: "mira", text: "That's the same thing you said last week.", time: "Tue 18:05" },
+        { id: "m3", senderId: "ari", text: "That's the same thing you said last week.", time: "Tue 18:05" },
         { id: "m4", senderId: "olivia", text: "I know. I'm working on it.", time: "Tue 18:07" },
-        { id: "m5", senderId: "mira", text: "The plant is still alive, by the way.", time: "Tue 18:08" },
+        { id: "m5", senderId: "ari", text: "The plant is still alive, by the way.", time: "Tue 18:08" },
         { id: "m6", senderId: "olivia", text: "See? You can keep something alive.", time: "Tue 18:09" },
       ],
     },
