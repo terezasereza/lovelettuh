@@ -1,6 +1,7 @@
 import { story } from "../stories/anna/story.js";
+import { createPost } from "./components/post.js";
 
-console.log("Story loaded:", story.id, story);
+const storyBase = "stories/anna/";
 
 const state = {
   tab: "feed",
@@ -39,3 +40,15 @@ tabButtons.forEach((button) => {
     showTab(button.dataset.tab);
   });
 });
+
+const feed = document.querySelector('[data-screen="feed"]');
+feed.replaceChildren();
+
+for (const post of story.posts) {
+  feed.append(
+    createPost(post, {
+      users: story.users,
+      assetBase: storyBase,
+    })
+  );
+}
