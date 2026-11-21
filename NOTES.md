@@ -17,7 +17,7 @@ short vignette, a small window into someone's head. Language: English.
   Details come later, after the barebones exist.
 
 ## Stories (one QR code each)
-- Each story is its own subpage/URL (e.g. /stories/anna/), reached by its own QR.
+- Each story is its own subpage/URL (e.g. /stories/cheatcode/), reached by its own QR.
 - All stories share the same core: app shell, tabs, base styling, state
   handling, reusable interaction helpers (drag, swipe, unfold).
 - Each story has its own: content data, custom graphics, and (optionally)

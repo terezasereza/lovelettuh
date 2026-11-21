@@ -1,17 +1,17 @@
 // Test story for the feed. This file is the authored data.
 // The player never edits it. Their likes and comments live in state.
-// Paths are relative to this story folder (stories/anna/).
+// Paths are relative to this story folder (stories/cheatcode/).
 
 export const story = {
-  id: "anna",
-  currentUserId: "anna",
+  id: "cheatcode",
+  currentUserId: "olivia",
   // Users referenced by id everywhere else. Cover, bio, about and friends are
   // all optional: the profile screen renders only what is present.
   users: {
-    anna: {
-      name: "Anna Novak",
-      avatar: "assets/anna.svg",
-      cover: "assets/cover.svg",
+    olivia: {
+      name: "Olivia Bagley",
+      avatar: "assets/oliviapfp.jpg",
+      cover: "assets/oliviabg.jpg",
       online: true,
       bio: "Reading other people's messages like weather reports.",
       about: {
@@ -34,7 +34,7 @@ export const story = {
         studied: "Graphic design",
         relationship: "Single, apparently",
       },
-      friends: ["anna", "leo", "noor", "jules", "sam", "priya", "tom", "elena"],
+      friends: ["olivia", "leo", "noor", "jules", "sam", "priya", "tom", "elena"],
     },
     leo: {
       name: "Leo Bartholomew-Langworth",
@@ -42,9 +42,9 @@ export const story = {
       // No cover on purpose: the profile should draw a fallback banner.
       online: false,
       bio: "Drafts are letters I didn't deserve to send.",
-      about: { relationship: "In a relationship with Anna" },
+      about: { relationship: "In a relationship with olivia" },
       // Self-link and unknown id are here to check that the UI skips them.
-      friends: ["leo", "anna", "ghost-user"],
+      friends: ["leo", "olivia", "ghost-user"],
     },
     noor: {
       name: "Noor Haddad",
@@ -58,13 +58,13 @@ export const story = {
       // No avatar on purpose: the profile should draw an initials fallback.
       cover: "assets/cover.svg",
       about: {},
-      friends: ["anna"],
+      friends: ["olivia"],
     },
     sam: {
       name: "Samantha-Rose Fitzgerald-Okafor",
       cover: "assets/cover.svg",
       about: { from: "Glasgow" },
-      friends: ["anna", "mira"],
+      friends: ["olivia", "mira"],
     },
     priya: { name: "Priya" },
     tom: { name: "Tom" },
@@ -74,7 +74,7 @@ export const story = {
   posts: [
     {
       id: "small-kindness",
-      authorId: "anna",
+      authorId: "olivia",
       caption: "Bought myself flowers. They are not an apology, they are just flowers.",
       image: "assets/plant.svg",
       likes: 3,
@@ -84,7 +84,7 @@ export const story = {
     },
     {
       id: "left-on-read",
-      authorId: "anna",
+      authorId: "olivia",
       caption: "He left this on read for six hours. I still checked if the little dot was green.",
       image: "assets/read-receipt.svg",
       likes: 18,
@@ -113,7 +113,7 @@ export const story = {
       comments: [
         {
           id: "c3",
-          authorId: "anna",
+          authorId: "olivia",
           text: "I have a whole album of those. They live in my head with the file name still on them, like unsaved tabs I am afraid to close in case the wording was finally honest.",
         },
       ],
@@ -136,24 +136,24 @@ export const story = {
       withUserId: "mira",
       messages: [
         { id: "m1", senderId: "mira", text: "You okay? You've been quiet since Tuesday.", time: "Tue 18:02" },
-        { id: "m2", senderId: "anna", text: "Yeah. Just tired.", time: "Tue 18:04" },
+        { id: "m2", senderId: "olivia", text: "Yeah. Just tired.", time: "Tue 18:04" },
         { id: "m3", senderId: "mira", text: "That's the same thing you said last week.", time: "Tue 18:05" },
-        { id: "m4", senderId: "anna", text: "I know. I'm working on it.", time: "Tue 18:07" },
+        { id: "m4", senderId: "olivia", text: "I know. I'm working on it.", time: "Tue 18:07" },
         { id: "m5", senderId: "mira", text: "The plant is still alive, by the way.", time: "Tue 18:08" },
-        { id: "m6", senderId: "anna", text: "See? You can keep something alive.", time: "Tue 18:09" },
+        { id: "m6", senderId: "olivia", text: "See? You can keep something alive.", time: "Tue 18:09" },
       ],
     },
     {
       id: "leo-chat",
       withUserId: "leo",
       messages: [
-        { id: "l1", senderId: "anna", text: "Are we okay?", time: "Wed 22:11" },
+        { id: "l1", senderId: "olivia", text: "Are we okay?", time: "Wed 22:11" },
         { id: "l2", senderId: "leo", text: "Yeah. Of course.", time: "Wed 22:14" },
-        { id: "l3", senderId: "anna", text: "You left me on read for six hours.", time: "Wed 22:15" },
+        { id: "l3", senderId: "olivia", text: "You left me on read for six hours.", time: "Wed 22:15" },
         { id: "l4", senderId: "leo", text: "I was thinking about what to say.", time: "Wed 22:17" },
-        { id: "l5", senderId: "anna", text: "That long?", time: "Wed 22:18" },
+        { id: "l5", senderId: "olivia", text: "That long?", time: "Wed 22:18" },
         { id: "l6", senderId: "leo", text: "I keep writing things and deleting them.", time: "Wed 22:20" },
-        { id: "l7", senderId: "anna", text: "Then write something small.", time: "Wed 22:21" },
+        { id: "l7", senderId: "olivia", text: "Then write something small.", time: "Wed 22:21" },
         { id: "l8", senderId: "leo", text: "Okay.", time: "Wed 22:23" },
       ],
       // The blanks become a mechanic later. Only their ids matter for now.
@@ -172,10 +172,10 @@ export const story = {
       id: "noor-chat",
       withUserId: "noor",
       messages: [
-        { id: "n1", senderId: "noor", text: "Hey, is this Anna from the book club?", time: "Fri 09:31" },
-        { id: "n2", senderId: "anna", text: "It is. Sorry, I lost my phone for a week.", time: "Fri 09:36" },
+        { id: "n1", senderId: "noor", text: "Hey, is this olivia from the book club?", time: "Fri 09:31" },
+        { id: "n2", senderId: "olivia", text: "It is. Sorry, I lost my phone for a week.", time: "Fri 09:36" },
         { id: "n3", senderId: "noor", text: "No worries. We're doing Sunday again?", time: "Fri 09:38" },
-        { id: "n4", senderId: "anna", text: "I think so.", time: "Fri 09:40" },
+        { id: "n4", senderId: "olivia", text: "I think so.", time: "Fri 09:40" },
         { id: "n5", senderId: "noor", text: "Cool. I'll send the address.", time: "Fri 09:41" },
       ],
     },

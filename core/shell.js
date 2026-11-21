@@ -1,11 +1,11 @@
-import { story } from "../stories/anna/story.js";
+import { story } from "../stories/cheatcode/story.js";
 import { createPost } from "./components/post.js";
 import { createChatList } from "./screens/messages.js";
 import { createChatView } from "./screens/chat.js";
 import { createProfileView } from "./screens/profile.js";
 import { initOnlineDots, setOnline } from "./components/online-dot.js";
 
-const storyBase = "stories/anna/";
+const storyBase = "stories/cheatcode/";
 const storageKey = `lovelettuh:story:${story.id}:state`;
 
 function cleanMessages(list) {
