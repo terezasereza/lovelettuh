@@ -143,9 +143,11 @@ export function createProfileView({
       for (const id of friendIds) {
         const friend = users[id];
 
-        const item = document.createElement("div");
+        const item = document.createElement("button");
+        item.type = "button";
         item.className = "friend-item";
         item.dataset.friendId = id;
+        item.addEventListener("click", () => onOpenFriend(id));
 
         const avatar = createAvatar(friend, assetBase);
         avatar.classList.add("friend-avatar");
@@ -195,6 +197,27 @@ export function createProfileView({
     postsSection.append(empty);
   }
   scroll.append(postsSection);
+
+  // Only profiles opened from a friend get their own back bar. The base
+  // "My profile" view sits under the app's normal header.
+  if (onBack) {
+    const nav = document.createElement("header");
+    nav.className = "profile-nav";
+
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "profile-back";
+    back.setAttribute("aria-label", "Back");
+    back.textContent = "‹";
+    back.addEventListener("click", onBack);
+
+    const navName = document.createElement("span");
+    navName.className = "profile-nav-name";
+    navName.textContent = user.name || "Unknown";
+
+    nav.append(back, navName);
+    view.append(nav);
+  }
 
   view.append(scroll);
 

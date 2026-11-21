@@ -105,6 +105,8 @@ function saveState() {
 const state = {
   tab: "feed",
   storyId: story.id,
+  // Which profile is on top is session-only: a reload lands back on a tab.
+  profileUserId: story.currentUserId,
   ...loadState(),
 };
 
@@ -210,12 +212,86 @@ const ownProfile = createProfileView({
   state,
   onLikeChange: changeLike,
   onAddComment: addComment,
+  onOpenFriend: (friendId) => openProfileTo(friendId),
 });
 profileScreen.replaceChildren(ownProfile.element);
 
 const app = document.querySelector(".app");
 const messagesScreen = document.querySelector('[data-screen="messages"]');
 let activeChat = null;
+
+// Profiles are stacked like sheets of paper. The bottom sheet is always the
+// player's own profile; each friend adds one with its own back button.
+const profileStack = [{ userId: story.currentUserId, view: ownProfile, scrollTop: 0 }];
+
+function currentProfile() {
+  return profileStack[profileStack.length - 1];
+}
+
+function pushProfile(userId) {
+  const previous = currentProfile();
+  previous.scrollTop = previous.view.scroll.scrollTop;
+  previous.view.element.hidden = true;
+
+  const view = createProfileView({
+    userId,
+    users: story.users,
+    posts: story.posts,
+    assetBase: storyBase,
+    currentUserId: story.currentUserId,
+    state,
+    onLikeChange: changeLike,
+    onAddComment: addComment,
+    onOpenFriend: (friendId) => openProfileTo(friendId),
+    onBack: closeProfile,
+  });
+
+  profileStack.push({ userId, view, scrollTop: 0 });
+  profileScreen.append(view.element);
+  state.profileUserId = userId;
+  app.classList.add("is-profile-open");
+  showTab("profile");
+}
+
+function popProfile() {
+  const entry = profileStack.pop();
+  entry.view.element.remove();
+
+  const top = currentProfile();
+  top.view.element.hidden = false;
+  state.profileUserId = top.userId;
+  if (profileStack.length === 1) app.classList.remove("is-profile-open");
+  if (top.scrollTop) {
+    // A hidden element cannot scroll, so restore after it is visible again.
+    requestAnimationFrame(() => { top.view.scroll.scrollTop = top.scrollTop; });
+  }
+}
+
+function closeProfile() {
+  if (profileStack.length <= 1) return;
+  popProfile();
+  if (history.state && history.state.profileUserId) history.back();
+}
+
+function openProfileTo(userId, { pushHistory = true } = {}) {
+  if (!story.users[userId] || currentProfile().userId === userId) return;
+
+  const index = profileStack.findIndex((entry) => entry.userId === userId);
+  if (index >= 0) {
+    // Forward navigation to a profile that is still in the stack.
+    while (profileStack.length - 1 > index) popProfile();
+    return;
+  }
+
+  // Otherwise start fresh from My profile, then open this one.
+  while (profileStack.length > 1) popProfile();
+  pushProfile(userId);
+  if (pushHistory) history.pushState({ profileUserId: userId, tab: "profile" }, "");
+}
+
+function closeAllProfiles() {
+  while (profileStack.length > 1) popProfile();
+}
 
 function allMessages(conversation) {
   return [...(conversation.messages || []), ...(state.sentMessages[conversation.id] || [])];
@@ -294,7 +370,7 @@ function openConversation(conversationId, { pushHistory = true } = {}) {
   messagesScreen.append(view.element);
   view.element.classList.add("is-active");
   app.classList.add("is-chat-open");
-  if (pushHistory) history.pushState({ chatId: conversationId }, "");
+  if (pushHistory) history.pushState({ chatId: conversationId, tab: state.tab }, "");
 
   requestAnimationFrame(() => {
     view.scrollToBottom();
@@ -303,14 +379,26 @@ function openConversation(conversationId, { pushHistory = true } = {}) {
 }
 
 window.addEventListener("popstate", (event) => {
-  const chatId = event.state && event.state.chatId;
-  if (chatId) {
-    openConversation(chatId, { pushHistory: false });
+  const target = event.state || {};
+
+  if (target.chatId) {
+    showTab(target.tab || "messages");
+    openConversation(target.chatId, { pushHistory: false });
+    return;
+  }
+
+  if (activeChat) closeConversation({ updateHistory: false });
+
+  if (target.profileUserId) {
+    showTab(target.tab || "profile");
+    openProfileTo(target.profileUserId, { pushHistory: false });
   } else {
-    closeConversation({ updateHistory: false });
+    closeAllProfiles();
   }
 });
 
-// A reload while a chat was open should land back in that chat.
-const initialChatId = history.state && history.state.chatId;
-if (initialChatId) openConversation(initialChatId, { pushHistory: false });
+// A reload lands on a tab (and restores an open chat, as before). It does not
+// restore the profile stack: the player starts again from My profile.
+const initialState = history.state || {};
+showTab(initialState.tab || (initialState.chatId ? "messages" : "feed"));
+if (initialState.chatId) openConversation(initialState.chatId, { pushHistory: false });
