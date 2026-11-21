@@ -158,6 +158,7 @@ function changeLike(postId, liked) {
     state.likedPosts = state.likedPosts.filter((id) => id !== postId);
   }
   saveState();
+  syncPosts();
 }
 
 function addComment(postId, text) {
@@ -169,7 +170,16 @@ function addComment(postId, text) {
   if (!state.userComments[postId]) state.userComments[postId] = [];
   state.userComments[postId].push(comment);
   saveState();
+  syncPosts();
   return comment;
+}
+
+// Feed and profile can both show the same post. Re-read state so every copy
+// updates immediately after a like or comment.
+function syncPosts() {
+  document.querySelectorAll(".post").forEach((article) => {
+    if (typeof article.refreshPost === "function") article.refreshPost();
+  });
 }
 
 function postOptions(post) {
@@ -181,6 +191,8 @@ function postOptions(post) {
     onLikeChange: changeLike,
     playerComments: state.userComments[post.id] || [],
     onAddComment: addComment,
+    getLiked: () => state.likedPosts.includes(post.id),
+    getComments: () => state.userComments[post.id] || [],
   };
 }
 

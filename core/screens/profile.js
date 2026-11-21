@@ -4,6 +4,7 @@
 
 import { createAvatar } from "../components/avatar.js";
 import { createOnlineDot } from "../components/online-dot.js";
+import { createPost } from "../components/post.js";
 
 function urlFor(assetBase, path) {
   if (!path) return "";
@@ -161,6 +162,39 @@ export function createProfileView({
       scroll.append(friends);
     }
   }
+
+  const postsSection = document.createElement("section");
+  postsSection.className = "profile-section posts-section";
+  // The story's posts are authored newest first; filtering keeps that order.
+  const ownPosts = posts.filter((post) => post && post.authorId === userId);
+  if (ownPosts.length) {
+    const title = document.createElement("h3");
+    title.className = "section-title posts-title";
+    title.textContent = "Posts";
+    postsSection.append(title);
+
+    for (const post of ownPosts) {
+      postsSection.append(
+        createPost(post, {
+          users,
+          assetBase,
+          currentUserId,
+          liked: (state.likedPosts || []).includes(post.id),
+          onLikeChange,
+          playerComments: (state.userComments || {})[post.id] || [],
+          onAddComment,
+          getLiked: () => (state.likedPosts || []).includes(post.id),
+          getComments: () => (state.userComments || {})[post.id] || [],
+        })
+      );
+    }
+  } else {
+    const empty = document.createElement("p");
+    empty.className = "profile-empty";
+    empty.textContent = "No posts yet.";
+    postsSection.append(empty);
+  }
+  scroll.append(postsSection);
 
   view.append(scroll);
 

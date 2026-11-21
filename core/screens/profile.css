@@ -130,3 +130,18 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Posts keep the full width, like in the feed. */
+.posts-section {
+  padding: 0;
+}
+
+.posts-title {
+  padding: 16px 16px 0;
+}
+
+.profile-empty {
+  margin: 0;
+  padding: 16px;
+  color: var(--muted, #65676b);
+}

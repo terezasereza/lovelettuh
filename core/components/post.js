@@ -85,6 +85,10 @@ export function createPost(
     onLikeChange = () => {},
     playerComments = [],
     onAddComment = () => {},
+    // Optional getters let the shell keep copies of the same post (feed and
+    // profile, or several profiles) in sync with the central state.
+    getLiked = null,
+    getComments = null,
   }
 ) {
   const author = userById(users, post.authorId);
@@ -130,18 +134,27 @@ export function createPost(
   const countEl = document.createElement("span");
   countEl.className = "post-like-count";
 
+  function isLiked() {
+    return typeof getLiked === "function" ? Boolean(getLiked()) : liked;
+  }
+
+  function commentsFromState() {
+    return typeof getComments === "function" ? getComments() || [] : playerComments;
+  }
+
   function renderLike() {
-    const count = likeCount(post.likes, liked, currentUserId);
-    icon.textContent = liked ? "♥" : "♡";
+    const active = isLiked();
+    const count = likeCount(post.likes, active, currentUserId);
+    icon.textContent = active ? "♥" : "♡";
     countEl.textContent = String(count);
-    like.setAttribute("aria-pressed", String(liked));
+    like.setAttribute("aria-pressed", String(active));
     like.setAttribute("aria-label", count === 1 ? "1 like" : `${count} likes`);
   }
 
   like.addEventListener("click", () => {
-    liked = !liked;
-    renderLike();
+    liked = !isLiked();
     onLikeChange(post.id, liked);
+    refresh();
   });
 
   renderLike();
@@ -150,9 +163,16 @@ export function createPost(
 
   const comments = document.createElement("ul");
   comments.className = "post-comments";
-  for (const comment of [...(post.comments || []), ...playerComments]) {
-    comments.append(createComment(comment, users, assetBase));
+
+  function refresh() {
+    renderLike();
+    comments.replaceChildren();
+    for (const comment of [...(post.comments || []), ...commentsFromState()]) {
+      comments.append(createComment(comment, users, assetBase));
+    }
   }
+
+  refresh();
 
   const form = document.createElement("form");
   form.className = "post-comment-form";
@@ -177,10 +197,12 @@ export function createPost(
     if (!text) return; // Empty comments are ignored.
 
     const comment = onAddComment(post.id, text);
-    if (comment) comments.append(createComment(comment, users, assetBase));
+    refresh();
+    if (comment && !getComments) comments.append(createComment(comment, users, assetBase));
   });
 
   article.append(header, caption, image, actions, comments, form);
+  article.refreshPost = refresh;
   return article;
 }
 
